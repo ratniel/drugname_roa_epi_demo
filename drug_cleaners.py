@@ -1,3 +1,5 @@
+import os
+import logging
 import instructor
 import pandas as pd
 from tqdm import tqdm
@@ -8,12 +10,6 @@ from pydantic import BaseModel, Field
 
 tqdm.pandas()
 
-import os
-import pandas as pd
-import logging
-from typing import List
-from retry import retry
-from pydantic import BaseModel, Field
 
 # Set up logging
 logging.basicConfig(
