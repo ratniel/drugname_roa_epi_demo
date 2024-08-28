@@ -18,7 +18,9 @@ def pull_model_if_needed(model_name):
         os.system(f"ollama pull {model_name}")
 
 
-def process_data(task, input_type, model_names, input_file, text_input, label_input, desc_input):
+def process_data(
+    task, input_type, model_names, input_file, text_input, label_input, desc_input
+):
     """Processes data based on the selected task, input type, and model."""
 
     if input_type == "from csv":
@@ -36,9 +38,7 @@ def process_data(task, input_type, model_names, input_file, text_input, label_in
             )
             return "cleaned_drug_names.csv"
         else:
-            return drug_cleaners.process_drug_name(
-                text_input, selected_model
-            ).drug_name
+            return drug_cleaners.process_drug_name(text_input, selected_model).drug_name
 
     elif task == "roa extraction":
         if input_type == "from csv":
@@ -95,21 +95,19 @@ def launch_gradio_interface():
                 model_names_csv = gr.CheckboxGroup(
                     choices=available_models,
                     label="Select Models (check to enable)",
-                    visible=False
+                    visible=False,
                 )
                 model_name_instant = gr.Radio(
                     choices=[model[0] for model in available_models],
                     label="Select Model",
-                    visible=False
+                    visible=False,
                 )
 
         with gr.Row():
             input_section = gr.Column(visible=False)
             with input_section:
                 input_file = gr.File(label="Upload CSV File", visible=False)
-                text_input = gr.Textbox(
-                    label="Enter Text", visible=False, lines=5
-                )
+                text_input = gr.Textbox(label="Enter Text", visible=False, lines=5)
                 label_input = gr.Textbox(label="Enter Drug Label", visible=False)
                 desc_input = gr.Textbox(
                     label="Enter Drug Description", visible=False, lines=3
@@ -121,20 +119,38 @@ def launch_gradio_interface():
         def update_visibility(task_choice, input_type_choice):
             csv_visible = input_type_choice == "from csv"
             instant_visible = input_type_choice == "instant trial"
-            
+
             return {
                 model_section: gr.update(visible=True),
                 model_names_csv: gr.update(visible=csv_visible),
                 model_name_instant: gr.update(visible=instant_visible),
                 input_section: gr.update(visible=True),
                 input_file: gr.update(visible=csv_visible),
-                text_input: gr.update(visible=instant_visible and task_choice == "epidemiology extraction"),
-                label_input: gr.update(visible=instant_visible and task_choice == "roa extraction"),
-                desc_input: gr.update(visible=instant_visible and task_choice == "roa extraction"),
+                text_input: gr.update(
+                    visible=instant_visible and task_choice == "epidemiology extraction"
+                ),
+                label_input: gr.update(
+                    visible=instant_visible and task_choice == "roa extraction"
+                ),
+                desc_input: gr.update(
+                    visible=instant_visible and task_choice == "roa extraction"
+                ),
             }
 
-        input_type.change(update_visibility, inputs=[task, input_type], 
-                         outputs=[model_section, model_names_csv, model_name_instant, input_section, input_file, text_input, label_input, desc_input])
+        input_type.change(
+            update_visibility,
+            inputs=[task, input_type],
+            outputs=[
+                model_section,
+                model_names_csv,
+                model_name_instant,
+                input_section,
+                input_file,
+                text_input,
+                label_input,
+                desc_input,
+            ],
+        )
 
         demo.load(
             process_data,
@@ -164,7 +180,7 @@ def launch_gradio_interface():
             outputs=output_text,
         )
 
-    demo.launch()
+    demo.launch(share=True)
 
 
 if __name__ == "__main__":
