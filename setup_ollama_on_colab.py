@@ -12,7 +12,7 @@ def run_command(command):
 run_command('sudo apt-get install -y lshw')
 run_command('curl -fsSL https://ollama.com/install.sh | sh')
 run_command('pip install ollama instructor -Uqq')
-run_command('nohup ollama serve &')
+run_command('nohup ollama serve & disown')
 
 # automatically unload model after each generation
 os.environ["OLLAMA_KEEP_ALIVE"] = "0"
