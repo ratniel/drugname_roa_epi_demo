@@ -79,7 +79,10 @@ def launch_app():
                 outputs=instant_output,
             )
 
-    app.launch(share=True)
+    app.launch(
+        share=True,
+        debug=True,
+    )
 
 
 if __name__ == "__main__":
