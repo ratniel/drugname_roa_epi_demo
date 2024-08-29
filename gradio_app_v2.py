@@ -82,8 +82,9 @@ def launch_app():
     # For Google Colab
     try:
         from google.colab import output
+
         output.serve_kernel_port_as_window(8080)
-        app.queue().launch(server_port=8080, share=True)
+        app.queue().launch(server_port=7860, share=True)
     except ImportError:
         # Fallback for non-Colab environments
         app.queue().launch(share=True)
