@@ -3,9 +3,14 @@ import pandas as pd
 from drug_cleaners import process_csv as process_drug_names
 from extract_epidemiology_ollama import process_csv as process_epidemiology
 from roa_extraction import process_csv as process_roa
-import os
+import logging
 
-MODELS = ["llama3.1:8b-instruct-q8_0", "gemma2:9b-instruct-q8_0", "phi:latest"]
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+MODELS = ["llama3.1:8b-instruct-q8_0", "gemma2:9b-instruct-q8_0", "mistral:7b-instruct-q8_0"]
 
 
 def process_csv(file, task, model, column_name):
