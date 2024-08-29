@@ -79,14 +79,14 @@ def launch_app():
                 outputs=instant_output,
             )
 
-    app.launch(
-        share=True,
-        debug=True,
-        inline=True,
-        # inbrowser=True,
-        show_error=True,
-        enable_monitoring=True,
-    )
+    # For Google Colab
+    try:
+        from google.colab import output
+        output.serve_kernel_port_as_window(8080)
+        app.queue().launch(server_port=8080, share=True)
+    except ImportError:
+        # Fallback for non-Colab environments
+        app.queue().launch(share=True)
 
 
 if __name__ == "__main__":
