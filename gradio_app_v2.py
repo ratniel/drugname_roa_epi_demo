@@ -5,7 +5,7 @@ from extract_epidemiology_ollama import process_csv as process_epidemiology
 from roa_extraction import process_csv as process_roa
 import os
 
-MODELS = ["llama2:7b-chat", "gemma:2b", "phi:latest"]
+MODELS = ["llama3.1:8b-instruct-q8_0", "gemma2:9b-instruct-q8_0", "phi:latest"]
 
 
 def process_csv(file, task, model, column_name):
@@ -84,10 +84,10 @@ def launch_app():
         from google.colab import output
 
         output.serve_kernel_port_as_window(8080)
-        app.queue().launch(server_port=7860, share=True)
+        app.queue().launch(server_port=7860, share=True, show_error=True, debug=True)
     except ImportError:
         # Fallback for non-Colab environments
-        app.queue().launch(share=True)
+        app.queue().launch(share=True, debug=True)
 
 
 if __name__ == "__main__":
