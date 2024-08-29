@@ -82,6 +82,10 @@ def launch_app():
     app.launch(
         share=True,
         debug=True,
+        inline=True,
+        # inbrowser=True,
+        show_error=True,
+        enable_monitoring=True,
     )
 
 
